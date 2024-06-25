@@ -33,6 +33,7 @@ type AuthUser struct {
 	LoginAt       time.Time  `json:"login_at" gorm:"column:login_at;type:timestamp with time zone;"`
 	// Roles       []Role       `json:"roles" gorm:"many2many:email_user_roles;"`
 	// Groups      []Group      `json:"groups" gorm:"many2many:email_user_groups;"`
+	Mode 		  string     `json:"mode" gorm:"column:mode;type:varchar;default:'dark'"`
 }
 
 /* ----- Handlers ----- */
@@ -174,8 +175,9 @@ func UpdateUser(userID int, name string, isAdmin, isActive, isWhitelist, isBlack
 	return user, nil
 }
 
-func UpdateSelf(userID int, name string) (user AuthUser, err error) {
+func UpdateSelf(userID int, name string, mode string) (user AuthUser, err error) {
 	user.Name = name
+	user.Mode = mode
 
 	err = DBManager.Table("auth_users").Where("id = ?", userID).Updates(&user).Error
 	if err != nil {

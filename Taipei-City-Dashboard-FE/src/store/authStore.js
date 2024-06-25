@@ -24,6 +24,7 @@ export const useAuthStore = defineStore("auth", {
 			is_blacked: null,
 			login_at: null,
 			is_admin: false,
+			mode: "light",
 		},
 		editUser: {},
 		token: null,
@@ -56,6 +57,8 @@ export const useAuthStore = defineStore("auth", {
 				}
 				this.editUser = JSON.parse(JSON.stringify(this.user));
 			}
+
+			document.getElementsByTagName("body")[0].className = this.user.mode;
 
 			contentStore.setContributors();
 		},
@@ -100,6 +103,8 @@ export const useAuthStore = defineStore("auth", {
 			}
 			this.user = response.data.user;
 			this.editUser = JSON.parse(JSON.stringify(this.user));
+
+			document.getElementsByTagName("body")[0].className = this.user.mode;
 
 			contentStore.publicDashboards = [];
 			router.go();
@@ -163,6 +168,17 @@ export const useAuthStore = defineStore("auth", {
 		// 2. Set the current path of the user
 		setCurrentPath(path) {
 			this.currentPath = path;
+		},
+
+		/*change mode*/
+		toggleMode() {
+			// 檢查當前模式並切換
+			if (this.user.mode === "light") {
+				this.user.mode = "dark";
+			} else {
+				this.user.mode = "light";
+			}
+			document.getElementsByTagName("body")[0].className = this.user.mode;
 		},
 	},
 });

@@ -6,7 +6,7 @@ services:
     volumes:
       - ../Taipei-City-Dashboard-FE:/opt/Taipei-City-Dashboard-FE
     working_dir: /opt/Taipei-City-Dashboard-FE
-    command: ["npm", "install"]
+    command: ["/bin/sh", "-c", "npm install -g npm@10.8.1 && npm install"]
 
   dashboard-be-init-manager:
     image: golang:${GOLANG_IMAGE_TAG:-latest}
