@@ -180,5 +180,7 @@ export const useAuthStore = defineStore("auth", {
 			}
 			document.getElementsByTagName("body")[0].className = this.user.mode;
 		},
+
+
 	},
 });

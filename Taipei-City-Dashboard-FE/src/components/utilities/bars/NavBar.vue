@@ -24,6 +24,26 @@ const linkQuery = computed(() => {
 });
 </script>
 
+<script>
+export default {
+	data() {
+		return {
+			// 使用物件來追蹤每個按鈕的懸停狀態
+			isHovered: {
+				modeButton: false,
+				infoButton: false,
+			},
+		};
+	},
+	methods: {
+		// 更新懸停狀態的方法
+		toggleHovered(button, value) {
+			this.isHovered[button] = value;
+		},
+	},
+};
+</script>
+
 <template>
 	<div class="navbar">
 		<a href="/">
@@ -74,7 +94,10 @@ const linkQuery = computed(() => {
 		</div>
 		<div class="navbar-user">
 			<button
-				v-if="!(authStore.isMobileDevice && authStore.isNarrowDevice) && !authStore.token"
+				v-if="
+					!(authStore.isMobileDevice && authStore.isNarrowDevice) &&
+					!authStore.token
+				"
 				class="hide-if-mobile"
 				@click="toggle"
 			>
@@ -82,13 +105,23 @@ const linkQuery = computed(() => {
 					isFullscreen ? "fullscreen_exit" : "fullscreen"
 				}}</span>
 			</button>
-				<button v-if="authStore.token" @click="authStore.toggleMode">
-						<span>{{
-							authStore.user.mode === "light"? "dark_mode" : "light_mode"
-						}}</span>
-				</button>
+			<button
+				v-if="authStore.token"
+				@click="authStore.toggleMode"
+				@mouseover="toggleHovered('modeButton', true)"
+				@mouseleave="toggleHovered('modeButton', false)"
+			>
+				<span :class="{ glow: isHovered.modeButton }">{{
+					authStore.user.mode === "light" ? "dark_mode" : "light_mode"
+				}}</span>
+			</button>
 			<div class="navbar-user-info">
-				<button><span>info</span></button>
+				<button
+					@mouseover="toggleHovered('infoButton', true)"
+					@mouseleave="toggleHovered('infoButton', false)"
+				>
+					<span :class="{ glow: isHovered.infoButton }">info</span>
+				</button>
 				<ul>
 					<li>
 						<a
@@ -247,6 +280,7 @@ const linkQuery = computed(() => {
 		span {
 			font-family: var(--font-icon);
 			font-size: calc(var(--font-l) * var(--font-to-icon));
+			filter: brightness(60%);
 		}
 
 		&-user:hover ul,
@@ -322,5 +356,26 @@ const linkQuery = computed(() => {
 			}
 		}
 	}
+}
+
+// .action{
+// 	transition: opacity 0.1s;
+// }
+
+// span {
+//   transition: transform 0.3s ease-in-out;
+// }
+
+// .expanded {
+//   transform: scale(1.3); /* 放大到原始尺寸的1.2倍 */
+// }
+
+span {
+	transition: transform 0.5s ease-in-out, filter 0.5s ease-in-out;
+}
+
+span.glow {
+	transform: scale(1.3);
+	filter: brightness(100%);
 }
 </style>
