@@ -96,12 +96,14 @@ export default {
 			<button
 				v-if="
 					!(authStore.isMobileDevice && authStore.isNarrowDevice) &&
-					!authStore.token
+					authStore.token
 				"
 				class="hide-if-mobile"
 				@click="toggle"
+				@mouseover="toggleHovered('FullscreenButton', true)"
+				@mouseleave="toggleHovered('FullscreenButton', false)"
 			>
-				<span>{{
+				<span :class="{ glow: isHovered.FullscreenButton }">{{
 					isFullscreen ? "fullscreen_exit" : "fullscreen"
 				}}</span>
 			</button>
