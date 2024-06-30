@@ -93,11 +93,10 @@ export default {
 			</router-link>
 		</div>
 		<div class="navbar-user">
+			<!-- && !authStore.token -->
 			<button
 				v-if="
-					!(authStore.isMobileDevice && authStore.isNarrowDevice) &&
-					authStore.token
-				"
+					!(authStore.isMobileDevice && authStore.isNarrowDevice)"
 				class="hide-if-mobile"
 				@click="toggle"
 				@mouseover="toggleHovered('FullscreenButton', true)"
@@ -108,7 +107,6 @@ export default {
 				}}</span>
 			</button>
 			<button
-				v-if="authStore.token"
 				@click="authStore.toggleMode"
 				@mouseover="toggleHovered('modeButton', true)"
 				@mouseleave="toggleHovered('modeButton', false)"
@@ -141,7 +139,7 @@ export default {
 						</button>
 					</li>
 				</ul>
-				<teleport to="body">
+				<Teleport to="body">
 					<ContributorsList />
 				</teleport>
 			</div>
@@ -180,7 +178,7 @@ export default {
 						<button @click="authStore.handleLogout">登出</button>
 					</li>
 				</ul>
-				<teleport to="body">
+				<Teleport to="body">
 					<user-settings />
 				</teleport>
 			</div>
@@ -226,7 +224,8 @@ export default {
 
 			img {
 				height: 45px;
-				filter: invert(1);
+				// filter: invert(1);
+				filter: var(--img-filter);
 			}
 		}
 	}
@@ -314,7 +313,8 @@ export default {
 				top: 55px;
 				padding: 8px;
 				border-radius: 5px;
-				background-color: rgb(85, 85, 85);
+				// background-color: rgb(85, 85, 85);
+				background-color: var(--color-border);
 				opacity: 0;
 				transition: opacity 0.25s;
 				z-index: 10;

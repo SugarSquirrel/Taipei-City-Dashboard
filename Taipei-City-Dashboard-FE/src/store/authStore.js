@@ -24,7 +24,7 @@ export const useAuthStore = defineStore("auth", {
 			is_blacked: null,
 			login_at: null,
 			is_admin: false,
-			mode: "light",
+			mode: "dark",
 		},
 		editUser: {},
 		token: null,
@@ -171,16 +171,11 @@ export const useAuthStore = defineStore("auth", {
 		},
 
 		/*change mode*/
-		toggleMode() {
+		async toggleMode() {
 			// 檢查當前模式並切換
-			if (this.user.mode === "light") {
-				this.user.mode = "dark";
-			} else {
-				this.user.mode = "light";
-			}
+			this.user.mode = this.user.mode === "dark" ? "light" : "dark";
+			await http.patch("/user/me", { mode: this.user.mode });
 			document.getElementsByTagName("body")[0].className = this.user.mode;
 		},
-
-
 	},
 });

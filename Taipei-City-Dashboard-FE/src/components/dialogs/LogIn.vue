@@ -109,7 +109,8 @@ function handleClose() {
       </p>
       <p
         :style="{
-          color: '#302C2E',
+          //color: '#302C2E',
+          color: 'var(--color-component-background)',
           cursor: 'default',
           userSelect: 'none',
         }"
@@ -156,6 +157,7 @@ function handleClose() {
 		padding: 6px;
 		font-size: var(--font-m);
 		background-color: #03b2c3;
+		color: white;
 		border-radius: 100px;
 
 		img {
@@ -196,7 +198,8 @@ function handleClose() {
 
 			img {
 				height: 45px;
-				filter: invert(1);
+				// filter: invert(1);
+				filter: var(--img-filter);
 			}
 		}
 	}

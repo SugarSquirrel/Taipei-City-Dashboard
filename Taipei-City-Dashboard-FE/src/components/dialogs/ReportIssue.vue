@@ -119,12 +119,12 @@ function handleClose() {
 	/* ⭐定義light mode和dark mode下的顏色 */
 	.light-mode {
 		--checked-color: black;
-		color: black;
+		// color: black;
 	}
 
 	.dark-mode {
 		--checked-color: white;
-		color: white;
+		// color: white;
 	}
 
 	&-radio {
