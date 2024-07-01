@@ -10,14 +10,7 @@ Testing: Jack Huang (Data Scientist), Ian Huang (Data Analysis Intern)
 
 <script setup>
 // ⭐
-import {
-	onBeforeMount,
-	onMounted,
-	onBeforeUnmount,
-	ref,
-	computed,
-	onUnmounted,
-} from "vue";
+import { onBeforeMount, onMounted, onBeforeUnmount, ref, computed } from "vue";
 import { useAuthStore } from "./store/authStore";
 import { useDialogStore } from "./store/dialogStore";
 import { useContentStore } from "./store/contentStore";
@@ -30,22 +23,12 @@ import NotificationBar from "./components/dialogs/NotificationBar.vue";
 import InitialWarning from "./components/dialogs/InitialWarning.vue";
 import ComponentSideBar from "./components/utilities/bars/ComponentSideBar.vue";
 import LogIn from "./components/dialogs/LogIn.vue";
+import AppFooter from "./components/utilities/bars/AppFooter.vue";
 
 const authStore = useAuthStore();
 const dialogStore = useDialogStore();
 const contentStore = useContentStore();
 const timeToUpdate = ref(600);
-const showFooter = ref(false);
-
-// ⭐
-const checkFooterVisibility = () => {
-	const scrollPosition = window.scrollY;
-	const windowHeight = window.innerHeight;
-	const fullHeight = document.documentElement.scrollHeight;
-	const buffer = 50; // 增加缓冲区，使 footer 在接近底部时显示
-
-	showFooter.value = scrollPosition + windowHeight >= fullHeight - buffer;
-};
 
 const formattedTimeToUpdate = computed(() => {
 	const minutes = Math.floor(timeToUpdate.value / 60);
@@ -94,15 +77,6 @@ onBeforeUnmount(() => {
 	clearInterval(updateTimeToUpdate);
 	// contentStore.wsDisconnect();
 });
-
-onMounted(() => {
-	window.addEventListener("scroll", checkFooterVisibility);
-	checkFooterVisibility(); // 初始檢查
-});
-
-onUnmounted(() => {
-	window.removeEventListener("scroll", checkFooterVisibility);
-});
 </script>
 
 <template>
@@ -121,6 +95,7 @@ onUnmounted(() => {
 			<div class="app-content-main">
 				<SettingsBar />
 				<RouterView />
+				<AppFooter />
 			</div>
 		</div>
 		<!-- /admin layouts -->
@@ -128,6 +103,7 @@ onUnmounted(() => {
 			<AdminSideBar />
 			<div class="app-content-main">
 				<RouterView />
+				<AppFooter />
 			</div>
 		</div>
 		<!-- /component, /component/:index layouts -->
@@ -138,10 +114,12 @@ onUnmounted(() => {
 			<ComponentSideBar />
 			<div class="app-content-main">
 				<RouterView />
+				<AppFooter />
 			</div>
 		</div>
 		<div v-else>
 			<router-view />
+			<AppFooter />
 		</div>
 		<InitialWarning />
 		<LogIn />
@@ -155,31 +133,27 @@ onUnmounted(() => {
 		>
 			<p>下次更新：{{ formattedTimeToUpdate }}</p>
 		</div>
-		<!-- ⭐在 app-container 的最後添加 footer -->
-		<footer :class="['app-footer', { show: showFooter }]">
+		<!-- Footer 直接放在最后 -->
+		<!-- <footer class="app-footer">
 			<div class="footer-content">
 				<div class="footer-logo">
-					<img src="/src/assets/images/TUIC.svg" alt="TUIC Logo" />
+				<img
+				src="/src/assets/images/TUIC.svg"
+				alt="TUIC Logo">
 				</div>
 				<div class="footer-info">
-					<p>
-						Developed By Taipei Urban Intelligence Center 2023-2024
-					</p>
-					<p>
-						Department of Information Technology, Taipei City
-						Government
-					</p>
+				<p>Developed By Taipei Urban Intelligence Center 2023-2024</p>
+				<p>Department of Information Technology, Taipei City Government</p>
 				</div>
 				<div class="footer-team">
-					<p>Lead Developer: Igor Ho (Full Stack Engineer)</p>
-					<p>Data Pipelines: Iima Yu (Data Scientist)</p>
-					<p>
-						Design and UX: Roy Lin (Fmr. Consultant), Chu Chen
-						(Researcher)
-					</p>
+				<p>Lead Developer: Igor Ho (Full Stack Engineer)</p>
+				<p>Data Pipelines: Iima Yu (Data Scientist)</p>
+				<p>Design and UX: Roy Lin (Fmr. Consultant), Chu Chen (Researcher)</p>
+				<p>Systems: Ann Shih (Systems Engineer)</p>
+				<p>Testing: Jack Huang (Data Scientist), Ian Huang (Data Analysis Intern)</p>
 				</div>
 			</div>
-		</footer>
+		</footer> -->
 	</div>
 </template>
 
@@ -221,50 +195,6 @@ onUnmounted(() => {
 		&:hover {
 			opacity: 1;
 		}
-	}
-
-	&-footer {
-		position: fixed;
-		bottom: -100%; // 初始时隐藏在视口下方
-		left: 0;
-		right: 0;
-		transition: bottom 0.3s ease-in-out;
-		background-color: #1e1e1e;
-		color: #ffffff;
-		padding: 20px;
-		font-size: 0.8rem;
-		text-align: center;
-		z-index: 1000; // 確保 footer 在其他內容之上
-
-		.footer-content {
-			max-width: 1200px;
-			margin: 0 auto;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			text-align: center;
-		}
-
-		.footer-logo {
-			margin-bottom: 10px;
-
-			img {
-				height: 40px;
-			}
-		}
-
-		.footer-info,
-		.footer-team {
-			margin-top: 10px;
-		}
-
-		p {
-			margin: 5px 0;
-		}
-	}
-
-	&-footer.show {
-		bottom: 0; // 显示时移动到底部
 	}
 }
 </style>
