@@ -95,7 +95,9 @@ onBeforeUnmount(() => {
 			<div class="app-content-main">
 				<SettingsBar />
 				<RouterView />
-				<AppFooter />
+				<div class="app-content-main-footer">
+					<AppFooter />
+				</div>
 			</div>
 		</div>
 		<!-- /admin layouts -->
@@ -103,7 +105,9 @@ onBeforeUnmount(() => {
 			<AdminSideBar />
 			<div class="app-content-main">
 				<RouterView />
-				<AppFooter />
+				<div class="app-content-main-footer">
+					<AppFooter />
+				</div>
 			</div>
 		</div>
 		<!-- /component, /component/:index layouts -->
@@ -114,13 +118,18 @@ onBeforeUnmount(() => {
 			<ComponentSideBar />
 			<div class="app-content-main">
 				<RouterView />
-				<AppFooter />
+				<div class="app-content-main-footer">
+					<AppFooter />
+				</div>
 			</div>
 		</div>
 		<div v-else>
 			<router-view />
-			<AppFooter />
+			<!-- <AppFooter /> -->
 		</div>
+		<!-- <footer class="app-content-main-footer">
+				<AppFooter />
+		</footer> -->
 		<InitialWarning />
 		<LogIn />
 		<div
@@ -133,6 +142,9 @@ onBeforeUnmount(() => {
 		>
 			<p>下次更新：{{ formattedTimeToUpdate }}</p>
 		</div>
+		<!-- <div class="app-footer">
+			<AppFooter />
+		</div> -->
 		<!-- Footer 直接放在最后 -->
 		<!-- <footer class="app-footer">
 			<div class="footer-content">
@@ -171,11 +183,23 @@ onBeforeUnmount(() => {
 		height: calc(100vh - 60px);
 		height: calc(var(--vh) * 100 - 60px);
 		display: flex;
+		margin-bottom: 100%;
+		margin-bottom: -50px; /*隨footer高度需做調整*/
 
 		&-main {
 			width: 100%;
 			display: flex;
 			flex-direction: column;
+			padding-bottom: 50px;
+
+			&-footer {
+				width: 100%;
+				height: calc(var(--vh) * 15);
+				flex-shrink: 0;
+
+				background-color: var(--color-component-background);
+				border-top: 1px solid rgba(255, 255, 255, 0.2);
+			}
 		}
 	}
 
