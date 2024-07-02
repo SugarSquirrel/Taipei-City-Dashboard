@@ -20,8 +20,9 @@
 	--color-highlight: #5a9cf8;
 	--color-normal-text: white;
 	--color-complement-text: #888787;
-	--color-component-background: #282a2c;
- }
+	--color-component-background: hsl(210, 5%, 16%, 0);
+	--img-filter: invert(0.9);
+}
 
 
  .light {
@@ -37,7 +38,8 @@
 	--dashboardcomponent-color-normal-text: black;
 	--dashboardcomponent-color-complement-text: #888787;
 	--dashboardcomponent-color-component-background: #f0f0f0;
-	--img-filter: none;
+	/* --img-filter: none; */
+	--img-filter: invert(0.3);
  }
 
 * {
@@ -51,6 +53,7 @@
 
 h1 {
 	font-size: var(--font-l);
+	color: var(--color-normal-text);
 }
 
 h2 {

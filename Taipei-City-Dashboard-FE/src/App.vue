@@ -84,6 +84,8 @@ onBeforeUnmount(() => {
 		<NotificationBar />
 		<NavBar v-if="authStore.currentPath !== 'embed'" />
 		<!-- /mapview, /dashboard layouts -->
+		<!-- <img src="..\src\assets\images\img4.gif" alt="GIF" class="moving-gif">
+		<canvas class="board"></canvas> -->
 		<div
 			v-if="
 				authStore.currentPath === 'mapview' ||
@@ -95,9 +97,12 @@ onBeforeUnmount(() => {
 			<div class="app-content-main">
 				<SettingsBar />
 				<RouterView />
-				<div class="app-content-main-footer">
+				<div class="app-content-footer">
 					<AppFooter />
 				</div>
+				<!-- <div>
+					<button @click="checkScrollHeight">檢查滾動高度</button>
+				</div> -->
 			</div>
 		</div>
 		<!-- /admin layouts -->
@@ -105,7 +110,7 @@ onBeforeUnmount(() => {
 			<AdminSideBar />
 			<div class="app-content-main">
 				<RouterView />
-				<div class="app-content-main-footer">
+				<div class="app-content-footer">
 					<AppFooter />
 				</div>
 			</div>
@@ -118,20 +123,26 @@ onBeforeUnmount(() => {
 			<ComponentSideBar />
 			<div class="app-content-main">
 				<RouterView />
-				<div class="app-content-main-footer">
+				<div class="app-content-footer">
 					<AppFooter />
 				</div>
 			</div>
 		</div>
 		<div v-else>
 			<router-view />
-			<!-- <AppFooter /> -->
+			<div class="app-content-footer">
+				<AppFooter />
+			</div>
 		</div>
-		<!-- <footer class="app-content-main-footer">
+
+		<!-- <footer class="app-content-footer">
 				<AppFooter />
 		</footer> -->
 		<InitialWarning />
 		<LogIn />
+		    <button class="scroll-to-top" @click="scrollToTop">
+      <i class="fas fa-chevron-up"></i>
+    </button>
 		<div
 			v-if="
 				['dashboard', 'mapview'].includes(authStore.currentPath) &&
@@ -170,6 +181,14 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped lang="scss">
+// .button {
+// 	position: fixed;
+// 	top: 10px;
+// 	right: 10px;
+// 	z-index: 1000;
+// 	background-color: rgba(0, 0, 0, 0.5);
+// }
+
 .app {
 	&-container {
 		max-width: 100vw;
@@ -183,23 +202,17 @@ onBeforeUnmount(() => {
 		height: calc(100vh - 60px);
 		height: calc(var(--vh) * 100 - 60px);
 		display: flex;
-		margin-bottom: 100%;
-		margin-bottom: -50px; /*隨footer高度需做調整*/
 
 		&-main {
 			width: 100%;
 			display: flex;
 			flex-direction: column;
-			padding-bottom: 50px;
-
-			&-footer {
-				width: 100%;
-				height: calc(var(--vh) * 15);
-				flex-shrink: 0;
-
-				background-color: var(--color-component-background);
-				border-top: 1px solid rgba(255, 255, 255, 0.2);
-			}
+		}
+		&-footer {
+			width: 100%;
+			height: calc(var(--vh) * 20);
+			background-color: var(--color-component-background);
+			border-top: 1px solid rgba(255, 255, 255, 0.2);
 		}
 	}
 
@@ -221,6 +234,45 @@ onBeforeUnmount(() => {
 		}
 	}
 }
+/*
+.board {
+	height: 60px;
+	width: 100vw;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid var(--color-border);
+	user-select: none;
+	background-color:var(--color-component-background);
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -2;
+}
+.moving-gif{
+	position: absolute;
+	width: 40px;
+	height: auto;
+	margin: 0 var(--font-m);
+	animation: move 15s linear infinite;
+	position: absolute;
+	top: 3px;
+	left: 0;
+	z-index: -1;
+	filter: var(--img-filter);
+}
+@keyframes move {
+	0% {
+		left: -10px;
+	}
+	50% {
+		left: calc(100vw - 40px);
+	}
+	100% {
+		left: -10px;
+	}
+}
+*/
 </style>
 
 <!-- <footer>

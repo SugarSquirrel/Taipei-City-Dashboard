@@ -4,7 +4,7 @@
 
 <script setup>
 const { VITE_APP_TITLE } = import.meta.env;
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useFullscreen } from "@vueuse/core";
 import { useAuthStore } from "../../../store/authStore";
@@ -12,16 +12,25 @@ import { useDialogStore } from "../../../store/dialogStore";
 
 import UserSettings from "../../dialogs/UserSettings.vue";
 import ContributorsList from "../../dialogs/ContributorsList.vue";
+import IntroduceModal from "../../dialogs/IntroductionModal.vue";
 
 const route = useRoute();
 const authStore = useAuthStore();
 const dialogStore = useDialogStore();
 const { isFullscreen, toggle } = useFullscreen();
+const showModal = ref(false);
 
 const linkQuery = computed(() => {
 	const { query } = route;
 	return `?index=${query.index}`;
 });
+
+const introduce = () => {
+	showModal.value = true;
+};
+const closeModal = () => {
+	showModal.value = false;
+};
 </script>
 
 <script>
@@ -93,10 +102,12 @@ export default {
 			</router-link>
 		</div>
 		<div class="navbar-user">
+			<button @click="introduce">
+				<span>speaker_notes</span>
+			</button>
 			<!-- && !authStore.token -->
 			<button
-				v-if="
-					!(authStore.isMobileDevice && authStore.isNarrowDevice)"
+				v-if="!(authStore.isMobileDevice && authStore.isNarrowDevice)"
 				class="hide-if-mobile"
 				@click="toggle"
 				@mouseover="toggleHovered('FullscreenButton', true)"
@@ -141,7 +152,7 @@ export default {
 				</ul>
 				<Teleport to="body">
 					<ContributorsList />
-				</teleport>
+				</Teleport>
 			</div>
 			<div
 				v-if="
@@ -180,7 +191,7 @@ export default {
 				</ul>
 				<Teleport to="body">
 					<user-settings />
-				</teleport>
+				</Teleport>
 			</div>
 			<div
 				v-else-if="
@@ -191,18 +202,55 @@ export default {
 				<button @click="dialogStore.showDialog('login')">登入</button>
 			</div>
 		</div>
+
+		<IntroduceModal :show="showModal" @close="closeModal" />
 	</div>
+	<img
+		class="canvas canvas-background canvas-mode"
+		src="../../../assets/images/img4.gif"
+	/>
 </template>
 
 <style scoped lang="scss">
+.canvas {
+	background-repeat: no-repeat;
+	position: relative; //相對位置：原本的位置
+	height: 60px;
+	pointer-events: none; // 使canvas不影響鼠標事件
+	top: 0;
+	left: 0;
+	z-index: 1; // 圈圈在下
+	filter: var(--img-filter);
+	//unicode-bidi: isolate;
+}
+.canvas-mode {
+	animation: mymove 20s linear infinite alternate;
+	animation-delay: 0s;
+	animation-direction: normal;
+	animation-play-state: running;
+}
+@keyframes mymove {
+	0% {
+		left: 0px;
+	}
+	50% {
+		left: 100vw;
+	}
+	100% {
+		left: 0px;
+	}
+}
+
 .navbar {
+	position: absolute; // 絕對位置：:自己獨立一層
+	z-index: 2;
 	height: 60px;
 	width: 100vw;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	border-bottom: 1px solid var(--color-border);
-	background-color: var(--color-component-background);
+	background-color: hsl(210, 5%, 16%, 0);
 	user-select: none;
 
 	&-logo {
@@ -273,7 +321,7 @@ export default {
 			align-items: center;
 			margin-right: var(--font-m);
 			padding: 2px 4px;
-			border-radius: 4px;
+			border-radius: 1px;
 			font-size: var(--font-m);
 			transition: background-color 0.25s;
 		}
@@ -314,7 +362,8 @@ export default {
 				padding: 8px;
 				border-radius: 5px;
 				// background-color: rgb(85, 85, 85);
-				background-color: var(--color-border);
+				background-color: var(--color-component-background);
+				border: 1px solid var(--color-border);
 				opacity: 0;
 				transition: opacity 0.25s;
 				z-index: 10;
@@ -332,7 +381,8 @@ export default {
 				}
 
 				li:hover {
-					background-color: var(--color-complement-text);
+					background-color: var(--color-component-background);
+					filter: var(--img-filter);
 				}
 			}
 		}
@@ -359,7 +409,13 @@ export default {
 		}
 	}
 }
-
+span {
+	transition: transform 0.3s ease-in-out, filter 0.5s ease-in-out;
+}
+span.glow {
+	transform: scale(1.3);
+	filter: brightness(100%);
+}
 // .action{
 // 	transition: opacity 0.1s;
 // }

@@ -1,10 +1,10 @@
 <!-- Developed By Taipei Urban Intelligence Center 2023-2024 -->
-<!-- 
+<!--
 Lead Developer:  Igor Ho (Full Stack Engineer)
 Data Pipelines:  Iima Yu (Data Scientist)
 Design and UX: Roy Lin (Fmr. Consultant), Chu Chen (Researcher)
 Systems: Ann Shih (Systems Engineer)
-Testing: Jack Huang (Data Scientist), Ian Huang (Data Analysis Intern) 
+Testing: Jack Huang (Data Scientist), Ian Huang (Data Analysis Intern)
 -->
 <!-- Department of Information Technology, Taipei City Government -->
 
@@ -332,6 +332,7 @@ onMounted(() => {
 				color: var(--color-highlight);
 				font-size: var(--font-m);
 				font-family: var(--font-icon);
+				color: var(--color-highlight-text);
 				user-select: none;
 			}
 
@@ -369,6 +370,7 @@ onMounted(() => {
 			span {
 				margin-right: 4px;
 				font-family: var(--font-icon);
+				color: var(--color-highlight-text);
 				font-size: var(--font-m);
 			}
 
@@ -379,6 +381,7 @@ onMounted(() => {
 				padding: 2px 4px;
 				border-radius: 5px;
 				background-color: var(--color-highlight);
+				color: var(--color-highlight-text);
 				font-size: var(--font-ms);
 				transition: opacity 0.2s;
 
@@ -516,6 +519,7 @@ onMounted(() => {
 			span {
 				margin-bottom: var(--font-ms);
 				font-family: var(--font-icon);
+				color: var(--color-highlight-text);
 				font-size: 2rem;
 			}
 

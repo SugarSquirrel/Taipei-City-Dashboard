@@ -1,6 +1,3 @@
-
-
-
 <template>
 	<div class="footer-content">
 	  <div class="footer-logo">
@@ -9,13 +6,6 @@
 	  <div class="footer-info">
 		<p>Developed By Taipei Urban Intelligence Center 2023-2024</p>
 		<p>Department of Information Technology, Taipei City Government</p>
-	  </div>
-	  <div class="footer-team">
-		<p>Lead Developer: Igor Ho (Full Stack Engineer)</p>
-		<p>Data Pipelines: Iima Yu (Data Scientist)</p>
-		<p>Design and UX: Roy Lin (Fmr. Consultant), Chu Chen (Researcher)</p>
-		<p>Systems: Ann Shih (Systems Engineer)</p>
-		<p>Testing: Jack Huang (Data Scientist), Ian Huang (Data Analysis Intern)</p>
 	  </div>
 	</div>
   </template>
@@ -40,11 +30,12 @@
   }
 
   .footer-logo img {
-	filter: invert(1);
-	height: 65px;
+	flex: 2;
+	filter: var(--img-filter);
+	height: calc(var(--vh) * 7);
   }
 
-  .footer-info, .footer-team {
+  .footer-info{
 	flex: 2;
 	padding: 0 20px;
   }
@@ -60,7 +51,7 @@
 	  align-items: center;
 	}
 
-	.footer-logo, .footer-info, .footer-team {
+	.footer-logo, .footer-info{
 	  width: 100%;
 	  padding: 10px 0;
 	  text-align: center;
